@@ -13,7 +13,7 @@ function loadData() {
       const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
       fileStore = new Map(Object.entries(data));
     }
-  } catch (error) {
+  } catch {
     // No existing dev data file, starting fresh
   }
 }

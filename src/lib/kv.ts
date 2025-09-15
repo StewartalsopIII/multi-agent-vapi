@@ -18,7 +18,8 @@ export interface Agent {
 // Get agent by name
 export async function getAgent(name: string): Promise<Agent | null> {
   try {
-    return await storage.get(`agent:${name.toLowerCase()}`);
+    const result = await storage.get(`agent:${name.toLowerCase()}`);
+    return result as Agent | null;
   } catch (error) {
     console.error('Error getting agent:', error);
     return null;
