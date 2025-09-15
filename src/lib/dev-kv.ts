@@ -1,12 +1,12 @@
 // Simple in-memory storage for development when KV is not configured
-let devStore: Map<string, any> = new Map();
+const devStore: Map<string, unknown> = new Map();
 
 export const devKV = {
   async get(key: string) {
     return devStore.get(key) || null;
   },
 
-  async set(key: string, value: any) {
+  async set(key: string, value: unknown) {
     devStore.set(key, value);
   },
 

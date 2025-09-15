@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Agent {
   name: string;
@@ -31,7 +32,7 @@ export default function AdminPanel() {
       } else {
         setError('Failed to fetch agents');
       }
-    } catch (err) {
+    } catch {
       setError('Error loading agents');
     } finally {
       setLoading(false);
@@ -61,7 +62,7 @@ export default function AdminPanel() {
         const data = await response.json();
         setError(data.error || 'Failed to save agent');
       }
-    } catch (err) {
+    } catch {
       setError('Error saving agent');
     } finally {
       setIsSubmitting(false);
@@ -83,7 +84,7 @@ export default function AdminPanel() {
       } else {
         setError('Failed to delete agent');
       }
-    } catch (err) {
+    } catch {
       setError('Error deleting agent');
     }
   };
@@ -102,8 +103,8 @@ export default function AdminPanel() {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
       router.push('/');
-    } catch (err) {
-      console.error('Logout error:', err);
+    } catch {
+      console.error('Logout error');
     }
   };
 
@@ -136,12 +137,12 @@ export default function AdminPanel() {
               <p className="text-gray-800">Manage your voice AI agents</p>
             </div>
             <div className="flex space-x-4">
-              <a
+              <Link
                 href="/"
                 className="text-gray-800 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
-              </a>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"

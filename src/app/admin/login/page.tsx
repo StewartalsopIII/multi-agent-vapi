@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function AdminLogin() {
   const [password, setPassword] = useState('');
@@ -29,7 +30,7 @@ export default function AdminLogin() {
         const data = await response.json();
         setError(data.error || 'Invalid password');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -81,12 +82,12 @@ export default function AdminLogin() {
         </form>
 
         <div className="mt-6 text-center">
-          <a
+          <Link
             href="/"
             className="text-sm text-gray-600 hover:text-gray-900"
           >
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

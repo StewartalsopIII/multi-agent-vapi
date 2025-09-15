@@ -4,7 +4,7 @@ import path from 'path';
 const DATA_FILE = path.join(process.cwd(), '.dev-agents.json');
 
 // Simple file-based storage for development that persists across restarts
-let fileStore: Map<string, any> = new Map();
+let fileStore: Map<string, unknown> = new Map();
 
 // Load data from file on startup
 function loadData() {
@@ -14,7 +14,7 @@ function loadData() {
       fileStore = new Map(Object.entries(data));
     }
   } catch (error) {
-    console.log('No existing dev data file, starting fresh');
+    // No existing dev data file, starting fresh
   }
 }
 
@@ -36,7 +36,7 @@ export const fileKV = {
     return fileStore.get(key) || null;
   },
 
-  async set(key: string, value: any) {
+  async set(key: string, value: unknown) {
     fileStore.set(key, value);
     saveData();
   },
