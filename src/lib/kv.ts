@@ -1,13 +1,24 @@
-import { kv } from '@vercel/kv';
+import { createClient } from '@vercel/kv';
 import { fileKV } from './file-kv';
 
-// Use file-based storage if KV is not configured properly
-const isKVConfigured = process.env.KV_REST_API_URL &&
-  process.env.KV_REST_API_URL !== 'your_kv_url_here' &&
-  process.env.KV_REST_API_TOKEN &&
-  process.env.KV_REST_API_TOKEN !== 'your_kv_token_here';
+// Get Redis configuration from environment variables
+const getRedisConfig = () => {
+  const url = process.env.KV_REST_API_URL || process.env.UPSTASH_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 
-const storage = isKVConfigured ? kv : fileKV;
+  // Only return valid URLs (not placeholder values)
+  if (url && token && url.startsWith('https') && !url.includes('your_kv_url_here')) {
+    return { url, token };
+  }
+  return null;
+};
+
+// Create KV client only if we have valid configuration
+const redisConfig = getRedisConfig();
+const kv = redisConfig ? createClient(redisConfig) : null;
+
+// Use Redis if configured, otherwise fall back to file storage
+const storage = kv || fileKV;
 
 export interface Agent {
   name: string;
