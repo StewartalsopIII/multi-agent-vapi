@@ -3,7 +3,7 @@ import { kv } from '@vercel/kv';
 export const redis = kv;
 
 // Helper functions for common operations
-export async function setCache(key: string, value: any, ttl?: number) {
+export async function setCache(key: string, value: unknown, ttl?: number) {
   if (ttl) {
     return await redis.setex(key, ttl, JSON.stringify(value));
   }
@@ -20,7 +20,7 @@ export async function deleteCache(key: string) {
 }
 
 // Example usage for your VAPI project
-export async function saveCallData(callId: string, data: any) {
+export async function saveCallData(callId: string, data: unknown) {
   return await setCache(`call:${callId}`, data, 3600); // 1 hour TTL
 }
 
